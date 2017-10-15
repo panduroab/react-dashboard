@@ -26,3 +26,5 @@ $ yarn start
 
 ### Optional modules
 - [] Google Maps and Geolocation
+- [] Payment system integration
+- [] Third party authentication (Google, Facebook, Twitter)
