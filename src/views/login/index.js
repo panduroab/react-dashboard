@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import './login.css';
 import { Button, Form, Grid, Header, Message } from 'semantic-ui-react';
 import AuthService from '../../services/AuthService';
@@ -97,8 +98,8 @@ export default class Login extends Component {
               <Button onClick={this.handleLogin} color='blue' fluid size='large'>Login</Button>
             </Form>
             <Message>
-              <p><a href="/signup">Sign up</a></p>
-              <p><a href="/forgot-password">Forgot your password?</a></p>
+              <p><Link to="/signup">Sign up</Link></p>
+              <p><Link to="/forgot-password">Forgot your password?</Link></p>
             </Message>
           </Grid.Column>
         </Grid>

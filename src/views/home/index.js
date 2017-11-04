@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Grid } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
 export default class Home extends Component {
     render() {
@@ -12,10 +13,10 @@ export default class Home extends Component {
                 </Grid>
                 <Grid>
                     <Grid.Column mobile={16} tablet={8} computer={4}>
-                        <a href="/login">Login</a>
+                        <Link to="/login">Login</Link>
                     </Grid.Column>
                     <Grid.Column mobile={16} tablet={8} computer={4}>
-                        <a href="/signup">Sign Up</a>
+                        <Link to="/signup">Sign Up</Link>
                     </Grid.Column>
                 </Grid>
             </div>
