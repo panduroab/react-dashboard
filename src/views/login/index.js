@@ -8,6 +8,10 @@ export default class Login extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      "error": false,
+      "errorMessage": ''
+    };
     this.handleLogin = this.handleLogin.bind(this);
   }
 
@@ -19,10 +23,36 @@ export default class Login extends Component {
     }.bind(this);
   }
 
+  handleShowError = (message, timeout) => {
+    //Show error toast
+    this.setState({
+      "error": true,
+      "errorMessage": message
+    });
+    setTimeout(() => {
+      this.handleCloseError();
+    }, timeout)
+  }
+
+  handleCloseError = () => {
+    this.setState({
+      "error": false,
+      "errorMessage": ""
+    });
+  }
+
   handleLogin() {
     //Validate fields
-    //Send login request
-    //Handle response
+    auth.login({
+      "email": this.state.email,
+      "password": this.state.password
+    }, (err, result) => {
+      if (err) {
+        this.handleShowError("Login failed, review your E-mail and Password", 2000);
+        return;
+      }
+      this.props.history.push("/dashboard");
+    });
   }
 
   componentWillMount() {
@@ -33,6 +63,13 @@ export default class Login extends Component {
   }
 
   render() {
+    //Show an error message
+    const errorMessage = (this.state.error) ?
+      <Message onDismiss={this.handleCloseError} negative>
+        <Message.Header>Error</Message.Header>
+        <p>{this.state.errorMessage}</p>
+      </Message>
+      : null;
     return (
       <div className='login-form'>
         <Grid
@@ -41,6 +78,7 @@ export default class Login extends Component {
           verticalAlign='middle'
         >
           <Grid.Column style={{ maxWidth: '25em' }}>
+            {errorMessage}
             <Header as='h2' color='blue' textAlign='center'>
               React Dashboard Login
             </Header>

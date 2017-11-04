@@ -1,7 +1,13 @@
+import AccountModel from '../models/AccountModel';
+const account = new AccountModel();
 export default class AuthService {
 
-    login() {
-
+    login(credentials, next) {
+        account.login(credentials)
+            .then(authInfo => {
+                return next(null, authInfo);
+            })
+            .catch(next);
     }
 
     logout() {
