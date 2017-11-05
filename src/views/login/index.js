@@ -87,7 +87,6 @@ export default class Login extends Component {
                 fluid
                 placeholder='E-mail'
                 name="email"
-                value={this.state.email}
                 onChange={this.handleChange}
               />
               <Form.Input
@@ -95,7 +94,6 @@ export default class Login extends Component {
                 placeholder='Password'
                 type='password'
                 name="password"
-                value={this.state.password}
                 onChange={this.handleChange}
               />
               <Button color='blue' fluid size='large'>Login</Button>

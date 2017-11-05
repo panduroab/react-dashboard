@@ -1,4 +1,5 @@
 import { environment as env } from '../environments/environment';
+import axios from 'axios';
 
 export default class BaseModel {
   baseUrl = '';
@@ -65,9 +66,7 @@ export default class BaseModel {
     };
 
     if (sessionStorage.getItem('accessToken')) {
-      data.headers = Object.assign(data.headers, {
-        'Authorization': sessionStorage.getItem('accessToken')
-      });
+      axios.defaults.headers.common['Authorization'] = sessionStorage.getItem('accessToken');
     }
 
     if (headers) {
@@ -75,7 +74,7 @@ export default class BaseModel {
     }
 
     if (method === 'POST') {
-      data = Object.assign(data, { 'body': JSON.stringify(params) });
+      data = Object.assign(data, { 'data': JSON.stringify(params) });
     }
 
     if (method === 'DELETE') {
@@ -84,7 +83,7 @@ export default class BaseModel {
 
     if (method === 'PUT' || method === 'PATCH') {
       url += '/' + params.id;
-      data = Object.assign(data, { 'body': JSON.stringify(params.params) });
+      data = Object.assign(data, { 'data': JSON.stringify(params.params) });
     }
 
     // Make sure query is an Object
@@ -108,26 +107,35 @@ export default class BaseModel {
     if (queryArray.length) {
       url += `?${queryArray.join('&')}`
     }
-
-    return new Promise((resolve, reject) => {
-      return fetch(url, data)
-        .then((response) => {
-          if (!response.ok) {
-            throw response;
-          } else {
-            return response.json();
-          }
-        })
-        .then(resolve)
-        .catch(res => {
-          if (typeof res.json === 'function') {
-            res.json().then((e) => {
-              return reject(e.error);
-            });
-          } else {
-            return reject(res);
-          }
-        });
-    });
+    let config = Object.assign(data, { "url": url });
+    // Return axios Promise
+    /**
+     * .then(res => {
+     *  console.log(`response.data ${response.data}`);
+     *  console.log(`response.status ${response.status}`);
+     *  console.log(`response.statusText ${response.statusText}`);
+     *  console.log(`response.headers ${response.headers}`);
+     *  console.log(`response.config ${response.config}`);
+     * })
+     * .catch(error => {
+     *  if (error.response) {
+     *    // The request was made and the server responded with a status code
+     *    // that falls out of the range of 2xx
+     *    console.log(`error.response.data ${error.response.data}`);
+     *    console.log(`error.response.status ${error.response.status}`);
+     *    console.log(`error.response.headers ${error.response.headers}`);
+     *  } else if (error.request) {
+     *    // The request was made but no response was received
+     *    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+     *    // http.ClientRequest in node.js
+     *    console.log(`error.request ${error.request}`);
+     *  } else {
+     *    // Something happened in setting up the request that triggered an Error
+     *    console.log(`error.message ${error.message}`);
+     *  }
+     * console.log(`error.config ${error.config}`);
+     * }
+     */
+    return axios(config);
   }
 }
