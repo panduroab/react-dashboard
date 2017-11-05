@@ -13,15 +13,14 @@ export default class Login extends Component {
       "error": false,
       "errorMessage": ''
     };
-    this.handleLogin = this.handleLogin.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange(key) {
-    return function (e, index, value) {
-      var state = {};
-      state[key] = e.target.value || value;
-      this.setState(state);
-    }.bind(this);
+  handleChange(event) {
+    let state = {};
+    state[event.target.name] = event.target.value;
+    this.setState(state);
   }
 
   handleShowError = (message, timeout) => {
@@ -42,7 +41,7 @@ export default class Login extends Component {
     });
   }
 
-  handleLogin() {
+  handleSubmit() {
     //Validate fields
     auth.login({
       "email": this.state.email,
@@ -83,19 +82,23 @@ export default class Login extends Component {
             <Header as='h2' color='blue' textAlign='center'>
               React Dashboard Login
             </Header>
-            <Form size='large'>
+            <Form size='large' onSubmit={this.handleSubmit}>
               <Form.Input
                 fluid
                 placeholder='E-mail'
-                onChange={this.handleChange("email")}
+                name="email"
+                value={this.state.email}
+                onChange={this.handleChange}
               />
               <Form.Input
                 fluid
                 placeholder='Password'
                 type='password'
-                onChange={this.handleChange("password")}
+                name="password"
+                value={this.state.password}
+                onChange={this.handleChange}
               />
-              <Button onClick={this.handleLogin} color='blue' fluid size='large'>Login</Button>
+              <Button color='blue' fluid size='large'>Login</Button>
             </Form>
             <Message>
               <p><Link to="/signup">Sign up</Link></p>
