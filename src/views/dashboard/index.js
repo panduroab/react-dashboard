@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import AuthService from '../../services/AuthService';
-const auth = new AuthService();
+import auth from '../../services/AuthService';
 
 export default class Dashboard extends Component {
     constructor() {

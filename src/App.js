@@ -6,8 +6,8 @@ import Login from './views/login';
 import SignUp from './views/signup';
 import ForgotPassword from './views/forgot-password';
 import Dashboard from './views/dashboard';
-import AuthService from './services/AuthService';
-const auth = new AuthService();
+import auth from './services/AuthService';
+
 class ProtectedRoute extends Component {
   render() {
     const comp = (auth.isAuthenticated()) ?

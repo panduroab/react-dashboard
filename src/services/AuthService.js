@@ -1,7 +1,7 @@
 import AccountModel from '../models/AccountModel';
 const account = new AccountModel();
-export default class AuthService {
 
+class AuthService {
   login(credentials, next) {
     account.login(credentials)
       .then(response => {
@@ -19,13 +19,7 @@ export default class AuthService {
   }
 
   logout(next) {
-    account.logout(sessionStorage.getItem('accessToken'))
-      .then(response => {
-        console.log(response);
-      })
-      .catch(error => {
-        console.log("Logout error: ", JSON.stringify(error));
-      });
+    account.logout(sessionStorage.getItem('accessToken'));
     sessionStorage.removeItem("accessToken");
     localStorage.removeItem("currentAccount");
     return next();
@@ -48,3 +42,7 @@ export default class AuthService {
 
   }
 }
+
+const authService = new AuthService();
+
+export default authService;
