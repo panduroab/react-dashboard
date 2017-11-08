@@ -47,9 +47,6 @@ export default class Login extends Component {
       "password": this.state.password
     }, (err, result) => {
       if (err) {
-        this.setState({
-          "debugError": err
-        });
         this.handleShowError("Login failed, review your E-mail and Password", 2000);
         return;
       }
@@ -70,11 +67,6 @@ export default class Login extends Component {
       <Message onDismiss={this.handleCloseError} negative>
         <Message.Header>Error</Message.Header>
         <p>{this.state.errorMessage}</p>
-      </Message>
-      : null;
-    const debug = (this.state.debugError) ?
-      <Message>
-        <p>{JSON.stringify(this.state.debugError,null,2)}</p>
       </Message>
       : null;
     return (
@@ -105,7 +97,6 @@ export default class Login extends Component {
               />
               <Button color='blue' fluid size='large'>Login</Button>
             </Form>
-            {debug}
             <Message>
               <p><Link to="/signup">Sign up</Link></p>
               <p><Link to="/forgot-password">Forgot your password?</Link></p>
